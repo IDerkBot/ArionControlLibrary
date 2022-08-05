@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="ArionControlLibrary.CounterInLine"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="170"
+    Height="35"
+    mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <RepeatButton
+            x:Name="BtnNegative"
+            Width="35"
+            Height="35"
+            Click="BtnNegative_OnClick"
+            Content="−"
+            Delay="50"
+            FontSize="24"
+            Interval="100"
+            PreviewMouseUp="Btn_OnPreviewMouseUp"
+            RenderTransformOrigin="0.5,0.5"
+            Style="{StaticResource RoundedRepeatButtonStyle}" />
+        <Label
+            Name="LabelValue"
+            Width="100"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="---"
+            FontSize="18"
+            FontWeight="Medium"
+            Foreground="#335D8E"
+            Style="{StaticResource Display}" />
+        <RepeatButton
+            x:Name="BtnPositive"
+            Width="35"
+            Height="35"
+            Click="BtnPositive_OnClick"
+            Content="+"
+            Delay="50"
+            FontSize="24"
+            Interval="100"
+            PreviewMouseUp="Btn_OnPreviewMouseUp"
+            RenderTransformOrigin="0.5,0.5"
+            Style="{StaticResource RoundedRepeatButtonStyle}" />
+    </StackPanel>
+</UserControl>
