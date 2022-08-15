@@ -11,41 +11,57 @@ namespace ArionControlLibrary
     /// </summary>
     public partial class CounterInLine : UserControl
     {
-        public double Max = 100;
-        public double Min = 0;
-        public double Delta = 1;
-        public double Divider = 1;
-        private double _value = 0;
-        public string Format;
-        public bool Change;
+        #region Vars
+
+        #region Private
 
         private string _valueString;
+        private double _value;
+        private const double ORIGINAL_DELTA = 1;
+        private int _repeatClickCounter;
+        private bool _send;
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler PlusClick;
+        public event EventHandler MinusClick;
+        public event EventHandler ValueChange;
+        public event EventHandler ValueLabelChange;
+        public event EventHandler SendChange;
+
+        #endregion
+
+        #region Public
+
+        public bool Send
+        {
+            get => _send;
+            set
+            {
+                _send = value;
+
+                SendChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public double Max { get; set; }
+        public double Min { get; set; }
+        public double Delta { get; set; }
+        public double Divider { get; set; }
+        public string Format { get; set; }
+        public bool Change { get; set; }
         public string ValueString
         {
             get => _valueString;
             set
             {
-                this._valueString = value;
+                _valueString = value;
                 LabelValue.Content = value;
 
                 ValueLabelChange?.Invoke(this, null);
             }
         }
-
-        private double _originalDelta = 1;
-
-        public event EventHandler PlusClick;
-
-        public event EventHandler MinusClick;
-
-        public event EventHandler ValueChange;
-        public event EventHandler ValueLabelChange;
-
-        private int _repeatClickCounter;
-        internal bool Send;
-        private bool _isControl;
-
         public double Value
         {
             get => _value;
@@ -58,6 +74,10 @@ namespace ArionControlLibrary
                 ValueChange?.Invoke(this, null);
             }
         }
+
+        #endregion
+
+        #endregion
 
         private void ShowValue()
         {
@@ -78,14 +98,13 @@ namespace ArionControlLibrary
         {
             if (Change) VisibilityChange();
             _repeatClickCounter = 0;
-            Delta = _originalDelta;
+            Delta = ORIGINAL_DELTA;
         }
 
         private void BtnNegative_OnClick(object sender, RoutedEventArgs e)
         {
-            Send = true;
+            Send = false;
             Change = true;
-            //_isHide = true;
             if (Value - Delta > Min && Value - Delta >= Delta)
                 Value -= Delta;
             else
@@ -101,9 +120,8 @@ namespace ArionControlLibrary
 
         private void BtnPositive_OnClick(object sender, RoutedEventArgs e)
         {
-            Send = true;
+            Send = false;
             Change = true;
-            //_isHide = true;
             if (Value + Delta < Max)
                 Value += Delta;
             else
@@ -116,54 +134,11 @@ namespace ArionControlLibrary
 
             PlusClick?.Invoke(this, e);
         }
-        public void Init(double min, double max, double delta, double divider, double val, string valueString,
-            string format)
-        {
-            Min = min;
-            Max = max;
-            _originalDelta = Delta = delta;
-            Divider = divider;
-            Value = val;
-            ValueString = valueString;
-            Format = format;
-            //_interval = interval;
-        }
-        public void Init(double min, double max, double delta, double divider, double val)
-        {
-            Min = min;
-            Max = max;
-            _originalDelta = Delta = delta;
-            Divider = divider;
-            Value = val;
-        }
-        public void Init(double min, double max, double delta, double divider, double val, bool isControl)
-        {
-            Min = min;
-            Max = max;
-            _originalDelta = Delta = delta;
-            Divider = divider;
-            Value = val;
-            _isControl = isControl;
-        }
-
-        private void TimerShowOnElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (Change) VisibilityChange();
-            //_timerShow.Dispose();
-        }
 
         private void VisibilityChange()
         {
-            SendValue();
+            Send = true;
             Change = false;
-        }
-
-        private void SendValue()
-        {
-            if (_isControl)
-            {
-                //MainManager.Controller.SetSpeed((int)Value);
-            }
         }
     }
 }
