@@ -7,36 +7,47 @@
     Width="114"
     Height="100"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="LightTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="36" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="36" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="36" />
         </Grid.RowDefinitions>
 
         <Label
-            x:Name="lblActualValue"
+            x:Name="LblActualValue"
+            Grid.Row="0"
+            Grid.Column="0"
             Grid.ColumnSpan="3"
             Height="40"
             Content="00:00"
             FontSize="22"
-            Style="{StaticResource RoundedLabelStyle}" />
+            Style="{DynamicResource RoundedLabelStyle}" />
         <Label
-            x:Name="lblTargetValue"
+            x:Name="LblTargetValue"
+            Grid.Row="0"
+            Grid.Column="0"
             Grid.ColumnSpan="3"
             Height="40"
             Content=""
             FontSize="15"
-            Style="{StaticResource RoundedLabelStyle}"
+            Style="{DynamicResource RoundedLabelStyle}"
             Visibility="Hidden" />
 
         <RepeatButton
-            x:Name="btnPosMinus"
+            x:Name="BtnPosMinus"
             Grid.Row="2"
             Grid.Column="0"
             Width="36"
@@ -46,22 +57,18 @@
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Top"
             Click="BtnMinus_Click"
+            Content="−"
             Delay="250"
             FontSize="24"
             Interval="150"
             PreviewMouseUp="Btn_PreviewMouseUp"
             RenderTransformOrigin="0.5,0.5"
-            Style="{StaticResource RoundedRepeatButtonStyle}">
-            <!--    -->
-            −
-        </RepeatButton>
-
+            Style="{DynamicResource RoundedRepeatButtonStyle}" />
         <Grid Grid.Row="2" Grid.Column="1">
-            <Label Style="{StaticResource TimeIcon}" />
+            <Label Style="{DynamicResource TimeIcon}" />
         </Grid>
-
         <RepeatButton
-            x:Name="btnPosPlus"
+            x:Name="BtnPosPlus"
             Grid.Row="2"
             Grid.Column="2"
             Width="36"
@@ -77,6 +84,6 @@
             Interval="150"
             PreviewMouseUp="Btn_PreviewMouseUp"
             RenderTransformOrigin="0.5,0.5"
-            Style="{StaticResource RoundedRepeatButtonStyle}" />
+            Style="{DynamicResource RoundedRepeatButtonStyle}" />
     </Grid>
 </UserControl>

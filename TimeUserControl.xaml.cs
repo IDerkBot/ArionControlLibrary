@@ -3,7 +3,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ArionLibrary.Controllers;
+using ArionLibrary.Utilities;
 using Timer = System.Timers.Timer;
 
 namespace ArionControlLibrary
@@ -15,19 +15,32 @@ namespace ArionControlLibrary
     {
         #region Variables
 
-        public int Max = 100;
-        public int Min = 0;
-        public int Delta = 6;
-        private int _value = 0;
+        private int _value;
         private double _interval;
         private int _originalDelta = 1;
-        public bool Change;
+        private int _repeatClickCounter;
+        private bool _isHide;
+        private bool _send;
+        private Timer _timerShow;
+
+        public int Max { get; set; }
+        public int Min { get; set; }
+        public int Delta { get; set; }
+        public bool Change { get; set; }
         public event EventHandler PlusClick;
         public event EventHandler MinusClick;
         public event EventHandler ValueChange;
-        private int _repeatClickCounter = 0;
-        private bool _isHide;
-        private bool _send;
+        public event EventHandler SendChange;
+        public bool Send
+        {
+            get => _send;
+            set
+            {
+                _send = value;
+
+                SendChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public int Value
         {
             get => _value;
@@ -39,7 +52,6 @@ namespace ArionControlLibrary
                 ValueChange?.Invoke(this, null);
             }
         }
-        private Timer _timerShow;
 
         #endregion
 
@@ -47,8 +59,8 @@ namespace ArionControlLibrary
         {
             _send = true;
             Change = true;
-            lblActualValue.ChangeVisible(false);
-            lblTargetValue.ChangeVisible(true);
+            LblActualValue.ChangeVisible(false);
+            LblTargetValue.ChangeVisible(true);
             _isHide = true;
             if (Value + Delta < Max)
                 Value += Delta;
@@ -66,8 +78,8 @@ namespace ArionControlLibrary
         {
             _send = true;
             Change = true;
-            lblActualValue.ChangeVisible(false);
-            lblTargetValue.ChangeVisible(true);
+            LblActualValue.ChangeVisible(false);
+            LblTargetValue.ChangeVisible(true);
             _isHide = true;
             if (Value - Delta > Min && Value - Delta >= Delta)
                 Value -= Delta;
@@ -81,19 +93,10 @@ namespace ArionControlLibrary
 
             MinusClick?.Invoke(this, e);
         }
-
         public TimeUserControl()
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// Инициализация
-        /// </summary>
-        /// <param name="min">Минимальное</param>
-        /// <param name="max">Максимальное</param>
-        /// <param name="delta">Шаг</param>
-        /// <param name="val">Значение</param>
-        /// <param name="interval">Интервал обновления</param>
         public void Init(int min, int max, int delta, int val, double interval = 1)
         {
             Min = min;
@@ -111,11 +114,8 @@ namespace ArionControlLibrary
 
         public void ShowValue()
         {
-            var convertTargetTime = Value.ConvertTime();
-            var convertActualTime = Value.ConvertTime();
-
-            lblActualValue.ChangeContent(convertActualTime);
-            lblTargetValue.ChangeContent(convertTargetTime);
+            LblActualValue.ChangeContentAsync(Value.ConvertTime());
+            LblTargetValue.ChangeContentAsync(Value.ConvertTime());
         }
 
         private void Btn_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -131,8 +131,8 @@ namespace ArionControlLibrary
         private void VisibilityChange(bool isHide = false)
         {
             if (_isHide) return;
-            lblTargetValue.ChangeVisible(false);
-            lblActualValue.ChangeVisible(true);
+            LblTargetValue.ChangeVisible(false);
+            LblActualValue.ChangeVisible(true);
 
             Change = false;
             SendValue(Value);
@@ -140,18 +140,18 @@ namespace ArionControlLibrary
 
         private void SendValue(int value)
         {
-            if (_send)
-            {
-                XRayControllerRs232.Send($"TP:{value / 6} ");
-                _send = false;
-            }
+            //if (_send)
+            //{
+            //    XRayControllerRs232.Send($"TP:{value / 6} ");
+            //    _send = false;
+            //}
         }
 
         public void UpdateActualValue(string actualValue)
         {
             if (Change)
                 return;
-            lblActualValue.ChangeContent(actualValue);
+            LblActualValue.ChangeContentAsync(actualValue);
         }
     }
 }
