@@ -111,6 +111,27 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="RoundedLabelStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="#335D8E" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border
+                        Name="Border"
+                        Padding="5"
+                        BorderBrush="#CCD9EB"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!--  LABEL  -->
 
@@ -140,6 +161,53 @@
     <Style x:Key="DisplayTransparent" TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource SolidDarkBlue}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="TimeIcon" TargetType="{x:Type Label}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Width="34" Height="34">
+                        <Rectangle
+                            Name="Rect"
+                            Width="34"
+                            Height="34"
+                            RadiusX="32"
+                            RadiusY="32"
+                            Stroke="{StaticResource SolidDarkBlue}"
+                            StrokeThickness="3" />
+                        <Rectangle
+                            Name="RectMin"
+                            Width="3"
+                            Height="3"
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RadiusX="6"
+                            RadiusY="6"
+                            Stroke="{StaticResource SolidDarkBlue}"
+                            StrokeThickness="3" />
+                        <Polyline
+                            Name="Hour"
+                            Points="17,6 17,19"
+                            Stroke="{StaticResource SolidDarkBlue}"
+                            StrokeThickness="3" />
+                        <Polyline
+                            Name="Min"
+                            Points="26,14 17,19"
+                            Stroke="{StaticResource SolidDarkBlue}"
+                            StrokeThickness="3" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Rect" Property="Stroke" Value="Gray" />
+                            <Setter TargetName="RectMin" Property="Stroke" Value="Gray" />
+                            <Setter TargetName="Hour" Property="Stroke" Value="Gray" />
+                            <Setter TargetName="Min" Property="Stroke" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--  DATA GRID  -->
@@ -613,7 +681,6 @@
         <Setter Property="Background" Value="#D2DEEF" />
         <Setter Property="Foreground" Value="{StaticResource SolidDarkBlue}" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="FontFamily" Value="{StaticResource NotoSans-Regular}" />
         <Setter Property="FontWeight" Value="500" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="BorderBrush" Value="#ECF0F4" />
@@ -654,5 +721,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="BlueLabelTransparentBackground" TargetType="Label">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource SolidDarkBlue}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FontWeight" Value="400" />
+        <Setter Property="FontStyle" Value="Normal" />
     </Style>
 </ResourceDictionary>
