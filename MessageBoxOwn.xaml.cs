@@ -10,7 +10,7 @@ namespace ArionControlLibrary
     /// </summary>
     public partial class MessageBoxOwn : Window
     {
-        MessageBoxResult Result = MessageBoxResult.None;
+        private MessageBoxResult _result = MessageBoxResult.None;
 
         public MessageBoxOwn()
         {
@@ -38,11 +38,11 @@ namespace ArionControlLibrary
                     AddButton("Отмена", MessageBoxResult.Cancel, isCancel: true);
                     break;
                 default:
-                    throw new ArgumentException("Неизветное значение", "buttons");
+                    throw new ArgumentException("Неизвестное значение", "buttons");
             }
         }
 
-        void AddButton(string text, MessageBoxResult result, bool isCancel = false)
+        private void AddButton(string text, MessageBoxResult result, bool isCancel = false)
         {
             var button = new Button
             {
@@ -60,7 +60,7 @@ namespace ArionControlLibrary
                 button.IsDefault = true;
                 FocusManager.SetFocusedElement(this, button);
             }
-            button.Click += (o, args) => { Result = result; DialogResult = true; };
+            button.Click += (o, args) => { _result = result; DialogResult = true; };
             ButtonContainer.Children.Add(button);
         }
         public static MessageBoxResult Show(string caption, string message,
@@ -73,15 +73,14 @@ namespace ArionControlLibrary
             };
             dialog.AddButtons(buttons);
             dialog.ShowDialog();
-            return dialog.Result;
+            return dialog._result;
         }
-
         public static MessageBoxResult Show(string message)
         {
             var dialog = new MessageBoxOwn { MessageContainer = { Text = message } };
             dialog.AddButtons(MessageBoxButton.OK);
             dialog.ShowDialog();
-            return dialog.Result;
+            return dialog._result;
         }
     }
 }
