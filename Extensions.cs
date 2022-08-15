@@ -6,7 +6,7 @@ namespace ArionControlLibrary
 {
     public static class Extensions
     {
-        public static void ChangeContent(this ContentControl control, object content)
+        public static void ChangeContentAsync(this ContentControl control, object content)
         {
             control.Dispatcher.BeginInvoke(new Action(() => control.Content = content));
         }
