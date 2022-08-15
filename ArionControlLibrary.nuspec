@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+	<metadata>
+		<id>Arion.Controls</id>
+		<version>1.0.3</version>
+		<title>Controls</title>
+		<authors>Arion</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<icon>images\arion-logo.png</icon>
+		<description>Library for fast work with control for manipulator and Xray</description>
+		<tags>Arion Controls Xray</tags>
+		<dependencies>
+			<group targetFramework=".NETFramework4.6.1">
+				<dependency id="Arion.Models" version="1.0.6" />
+				<dependency id="Accord" version="3.8.0" />
+				<dependency id="Accord.Video" version="3.8.0" />
+				<dependency id="Accord.Video.FFMPEG.x64" version="3.8.0" />
+			</group>
+			<group targetFramework=".NETFramework4.8">
+				<dependency id="Arion.Models" version="1.0.6" />
+				<dependency id="Accord" version="3.8.0" />
+				<dependency id="Accord.Video" version="3.8.0" />
+				<dependency id="Accord.Video.FFMPEG.x64" version="3.8.0" />
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin/Debug/ArionControlLibrary.dll" target="lib/net48" />
+		<file src="bin/Debug/ArionControlLibrary.pdb" target="lib/net48" />
+		<file src="bin/Debug/ArionControlLibrary.dll" target="lib/net461" />
+		<file src="bin/Debug/ArionControlLibrary.pdb" target="lib/net461" />
+		<file src="bin/Debug/ArionLibrary.dll" target="build" />
+		<file src="bin/Debug/ArionLibrary.pdb" target="build" />
+		<file src="bin/Debug/Newtonsoft.Json.dll" target="build" />
+		<file src="bin/Debug/Newtonsoft.Json.xml" target="build" />
+		<file src="bin/Debug/NModbus4.dll" target="build" />
+		<file src="bin/Debug/NModbus4.xml" target="build" />
+		<file src="arion-logo.png" target="images\" />
+	</files>
+</package>
